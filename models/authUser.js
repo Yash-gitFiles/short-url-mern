@@ -15,6 +15,10 @@ const authUserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    createdBt: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+    },
   },
   {
     timestamps: true,

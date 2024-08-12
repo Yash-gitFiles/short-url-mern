@@ -5,6 +5,8 @@ const URL = require("./models/user");
 const app = express();
 const path = require("path");
 const staticRouter = require("./routes/staticRouter");
+const cookieParser = require("cookie-parser");
+const { restrictLoggedInUserOnly, checkAuth } = require("./middleware/auth");
 
 app.set("view engine", "ejs");
 app.set("views", path.resolve("./views"));
@@ -12,8 +14,9 @@ app.set("views", path.resolve("./views"));
 const userRoute = require("./routes/user");
 app.use(express.json());
 app.use(express.urlencoded({ extended: false })); // form-data support karne ke liye.
-app.use("/url", urlRoute);
-app.use("/static", staticRouter);
+app.use(cookieParser());
+app.use("/url", restrictLoggedInUserOnly, urlRoute);
+app.use("/static", checkAuth, staticRouter);
 app.use("/user", userRoute);
 
 app.get("/:id", async (req, res) => {

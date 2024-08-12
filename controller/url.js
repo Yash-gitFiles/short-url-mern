@@ -6,6 +6,7 @@ async function generateShotURL(req, res) {
   const data = new URL({
     shortId,
     originalURL: originalURL,
+    createdBy: req.user._id,
   });
 
   await data.save();
