@@ -1,20 +1,20 @@
-// const shortid = require("shortid");
 const URL = require("../models/user");
 
 async function generateShotURL(req, res) {
-  const body = req.body;
-  // const shortId = shortid();
+  const { originalURL } = req.body;
   const shortId = Date.now();
-
   const data = new URL({
     shortId,
-    originalURL: body.name,
+    originalURL: originalURL,
   });
 
   await data.save();
-  res.send({
-    shortId,
+  return res.render("home", {
+    id: shortId,
   });
+  // res.send({
+  //   shortId,
+  // });
 }
 
 module.exports = generateShotURL;
